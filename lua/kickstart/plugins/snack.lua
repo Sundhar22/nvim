@@ -1,0 +1,60 @@
+return {
+  'folke/snacks.nvim',
+  priority = 1000,
+  lazy = false,
+  ---@type snacks.Config
+  opts = {
+    dashboard = { enabled = true },
+    terminal = {
+      enabled = true,
+      bo = {
+        filetype = 'snacks_terminal',
+      },
+      wo = {},
+      stack = true, -- when enabled, multiple split windows with the same position will be stacked together (useful for terminals)
+      keys = {
+        { 'q', 'hide', mode = 'n' },
+        {
+          'gf',
+          function(self)
+            local f = vim.fn.findfile(vim.fn.expand '<cfile>', '**')
+            if f == '' then
+              Snacks.notify.warn 'No file under cursor'
+            else
+              self:hide()
+              vim.schedule(function()
+                vim.cmd('e ' .. f)
+              end)
+            end
+          end,
+          mode = 'n',
+        },
+        {
+          '<C-c>',
+          function(self)
+            self.esc_timer = self.esc_timer or (vim.uv or vim.loop).new_timer()
+            if self.esc_timer:is_active() then
+              self.esc_timer:stop()
+              vim.cmd 'stopinsert'
+            else
+              self.esc_timer:start(200, 0, function() end)
+              return '<C-c>'
+            end
+          end,
+          mode = 't',
+          expr = true,
+          desc = 'Double escape to normal mode',
+        },
+      },
+    },
+  },
+  keys = {
+    {
+      "<c-'>",
+      function()
+        Snacks.terminal.toggle(nil, { cwd = vim.fn.getcwd(), id = 'term' .. vim.v.count1 })
+      end,
+      desc = 'Toggle Terminal',
+    },
+  },
+}
