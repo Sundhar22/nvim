@@ -28,7 +28,7 @@ rtp:prepend(lazypath)
 require('lazy').setup({
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
   -- LSP Plugins
-  require 'kickstart.colorscheme.tokyonight',
+  require 'kickstart.colorscheme.bamboo',
   { import = 'kickstart.lsp' },
   { import = 'kickstart.plugins' },
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`

@@ -193,9 +193,33 @@ return {
     --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
     --  - settings (table): Override the default settings passed when initializing the server.
     --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+
+    local lspconfig = require 'lspconfig'
+    local configs = require 'lspconfig.configs'
+
+    if not configs.golangci_lint_ls then
+      configs.golangci_lint_ls = {
+        default_config = {
+          cmd = { 'golangci-lint-langserver' },
+          root_dir = lspconfig.util.root_pattern('.git', 'go.mod'),
+          filetypes = { 'go', 'gomod' },
+          init_options = {
+            command = {
+              'golangci-lint',
+              'run',
+              '--output.json.path',
+              'stdout',
+              '--show-stats=false',
+              '--issues-exit-code=1',
+            },
+          },
+        },
+      }
+    end
     local servers = {
       -- clangd = {},
-      -- gopls = {},
+      gopls = {},
+      golangci_lint_ls = {},
       pyright = {},
       -- rust_analyzer = {},
       -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs

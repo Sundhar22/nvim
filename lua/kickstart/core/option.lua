@@ -121,9 +121,10 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
 -- only delete don't yank
-vim.keymap.set({ 'n', 'v' }, 'd', '"_d')
-vim.keymap.set({ 'n', 'v' }, 'D', '"_D')
+--vim.keymap.set({ 'n', 'v' }, 'd', '"_d')
+--vim.keymap.set({ 'n', 'v' }, 'D', '"_D')
 vim.opt.guicursor = 'n-v-c-sm:block,i-ci-ve:block,r-cr-o:block'
+vim.keymap.set('v', 'p', '"_dP')
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
